@@ -1,0 +1,35 @@
+[user]
+	name = John Weispfenning
+	email = ''
+[color]
+	ui = auto
+[push]
+	defualt = tracking
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	stat = true
+[branch]
+	autosetuprebase = always
+[core]
+	excludesfile = ~/.gitignore
+	pager = vimpager
+	ignorecase = false
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[alias]
+	b = branch -vv
+	bd = branch -D
+	br = branch -r
+	bu = branch -u
+	c = checkout
+	cb = checkout -b
+	d = difftool
+	s = status
+[merge]
+	tool = vimdiff
+[mergetool]
+	prompt = false
