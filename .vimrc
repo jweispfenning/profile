@@ -5,8 +5,8 @@ set nocompatible
 set fileformat=unix
 
 ""set back file location
-set backupdir=~/.vim/backups
-set directory=~/.vim/swapfiles
+set backupdir=~/.config/nvim/backups
+set directory=~/.config/nvim/swapfiles
 
 ""turn on syntax
 filetype plugin indent on
