@@ -1,4 +1,5 @@
 #!/bin/bash -x
+
 case "$-" in
 *i*) interactive=1 ;;
 *)   interactive=0 ;;
@@ -31,20 +32,29 @@ alias vim='nvim'
 
 #generic ones
 alias deject='diskutil eject'
+alias env='env | sort'
 alias grep='grep -I'
 alias itsfine='xattr -d com.apple.quarantine'
-alias ls='ls -G'
 alias ll='ls -lA'
+alias ls='ls -G'
 alias newa='vim ~/.bashrc'
 alias newg='vim ~/.gitconfig'
 alias newv='vim ~/.vimrc'
 alias reload='source ~/.bashrc'
 alias rmr='rm -r'
 alias scut='cut -c1-250'
-alias env='env | sort'
+alias docker_clear='function _a_func {
+	echo "container prune";
+	yes | docker container prune;
+	echo "removing dangling images";
+	docker rmi -f $(docker images -f "dangling=true" -q);
+}; _a_func'
 
 #git alias
-alias git_replace='function _a_func { git branch -D $1; git checkout -b $1 && git branch -u origin/$1; }; _a_func'
+alias git_replace='function _a_func {
+	git branch -D $1;
+	git checkout -b $1 && git branch -u origin/$1;
+}; _a_func'
 
 #leaving this so I don't forget the insane java main signature.
 #alias java_main_function='echo "void main(String[] args) {"'

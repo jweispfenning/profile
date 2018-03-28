@@ -8,12 +8,16 @@ Plug 'majutsushi/tagbar'
 "Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-fugitive'
 Plug 'tweekmonster/impsort.vim'
+Plug 'saltstack/salt-vim'
 call plug#end()
 
 so ~/.vimrc
 
 " maps specific to vimplugs
+"" Git Blame
 nnoremap <space>gb :Gblame<CR>
+
+"" Import sorts
 let g:impsort_textwidth = 104
 autocmd BufWritePre *.py ImpSort!
 

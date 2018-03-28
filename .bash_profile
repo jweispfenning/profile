@@ -19,5 +19,4 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 export GIT_EDITOR="$VISUAL"
 export PAGER=vimpager
-export LANG=C;
 export NVIM_TUI_ENABLE_TRUE_COLOR=1

@@ -5,8 +5,8 @@ set nocompatible
 set fileformat=unix
 
 ""set back file location
-set backupdir=~/.config/nvim/backups
-set directory=~/.config/nvim/swapfiles
+set backupdir=~/.vim/backups
+set directory=~/.vim/swapfiles
 
 ""turn on syntax
 filetype plugin indent on
@@ -92,6 +92,11 @@ set incsearch
 highlight ExtraWhitespace ctermbg=red cterm=NONE
 match ExtraWhitespace /[^\t]\zs\t\+\|\s\+$\|^\t\+\zs \+/
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red cterm=NONE
+
+""shows super long lines in YELLOW
+highlight LongLines ctermbg=yellow cterm=NONE
+match LongLines /\%>120v.\+/
+autocmd ColorScheme * highlight LongLines ctermbg=yellow cterm=NONE
 
 let $PAGER=''
 
