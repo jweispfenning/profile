@@ -1,6 +1,6 @@
 [user]
 	name = John Weispfenning
-	email = fake.emial@gmaily.com
+	email = 
 [color]
 	ui = auto
 [push]
@@ -13,9 +13,10 @@
 [branch]
 	autosetuprebase = always
 [core]
+	editor = nvim
 	excludesfile = ~/.gitignore
-	pager = vimpager
 	ignorecase = false
+	pager = vimpager
 [diff]
 	tool = vimdiff
 [difftool]

@@ -40,7 +40,6 @@ set splitbelow
 ""keeps wrapped words connected
 set linebreak
 
-""""KEY MAPPINGS""""
 ""remap 'j' and 'k' to move by row and not line
 nnoremap j gj
 nnoremap k gk
@@ -60,8 +59,6 @@ nnoremap dA d^
 
 ""map t to insert space and stay in normal mode
 nmap t i<Space><Esc>
-
-""""END KEY MAPPINGS""""
 
 ""fat fingering save and quit
 command W w
@@ -88,16 +85,7 @@ set tw=0
 set hlsearch
 set incsearch
 
-""shows bad white space practices in RED
-highlight ExtraWhitespace ctermbg=red cterm=NONE
-match ExtraWhitespace /[^\t]\zs\t\+\|\s\+$\|^\t\+\zs \+/
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red cterm=NONE
-
-""shows super long lines in YELLOW
-highlight LongLines ctermbg=yellow cterm=NONE
-match LongLines /\%>120v.\+/
-autocmd ColorScheme * highlight LongLines ctermbg=yellow cterm=NONE
-
+""vimpager stuff
 let $PAGER=''
 
 ""Netrw stuff
@@ -109,3 +97,7 @@ command LE Le
 command RE Re
 nmap <C-L> :Le<CR>
 ""autocmd VimEnter * :Le<CR>
+
+""Loads highlighting rules
+command APPLYCUSTOM execute printf("set syntax=%s.custom", &syntax)
+"autocmd VimEnter * APPLYCUSTOM

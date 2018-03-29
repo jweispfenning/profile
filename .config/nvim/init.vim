@@ -13,6 +13,10 @@ call plug#end()
 
 so ~/.vimrc
 
+""set back file location
+set backupdir=~/.config/nvim/backups
+set directory=~/.config/nvim/swapfiles
+
 " maps specific to vimplugs
 "" Git Blame
 nnoremap <space>gb :Gblame<CR>
