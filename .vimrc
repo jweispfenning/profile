@@ -99,5 +99,25 @@ nmap <C-L> :Le<CR>
 ""autocmd VimEnter * :Le<CR>
 
 ""Loads highlighting rules
-command APPLYCUSTOM execute printf("set syntax=%s.custom", &syntax)
+"command APPLYCUSTOM execute printf("set syntax=%s.custom", &syntax)
 "autocmd VimEnter * APPLYCUSTOM
+
+highlight MixedWhitespace ctermbg=red  cterm=NONE
+match MixedWhitespace /\t \+/
+call matchadd('MixedWhitespace', '	\+', -1)
+call matchadd('MixedWhitespace', '\%>120v.\+$', -1)
+
+"" TESTCASES
+"This is a really long line and it is used to make sure that it will always always always highlight how I want and think it will
+"space then tab:	:
+"space then 2 tabs:			:
+"space then tab then space:		 :
+"
+"tab then space:	 :
+"tab then 3 spaces:	   :
+"tab then space then tab:		:
+"
+"tab then space then text:
+	 "hello
+"space then tab then text:
+	"hello
