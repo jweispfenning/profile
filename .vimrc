@@ -113,6 +113,7 @@ call matchadd('Violations', '\t\+ \+', -1)
 call matchadd('Violations', '\s\+$', -1)
 ""lines longer than 120 characters
 call matchadd('Violations', '\%>120v.\+$', -1)
+command NOV highlight clear Violations
 
 "" TESTCASES
 "This is a really long line and it is used to make sure that it will always always always highlight how I want and think it will

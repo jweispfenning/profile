@@ -15,24 +15,24 @@ while [[ $# -gt 0 ]]; do
 			exit 3
 	esac
 done
- 
+
 if [ ! -z $EXPORT ]; then
 	cp .bashrc ~/.bashrc;
 	cp .bash_profile ~/.bash_profile;
 	cp .vimrc ~/.vimrc
 	cp -r .config/ ~/;
 	cp .gitconfig ~/.gitconfig;
+	mkdir ~/.vim
+	ln -s ~/.config/nvim/swapfiles ~/.vim/swapfiles
+	ln -s ~/.config/nvim/backups ~/.vim/backups
+	ln -s ~/.config/nvim/colors ~/.vim/colors
 elif [ ! -z $IMPORT ]; then
 	cp ~/.bashrc .bashrc;
 	cp ~/.bash_profile .bash_profile;
 	cp ~/.vimrc .vimrc
 	cp ~/.config/nvim/init.vim .config/nvim/init.vim;
-	cp ~/.config/nvim/after/ .config/nvim/after;
+	cp ~/.config/nvim/after/syntax/* .config/nvim/after/syntax;
 	cp ~/.gitconfig .gitconfig;
-	mkdir ~/.vim
-	ln -s ~/.config/nvim/swapfiles ~/.vim/swapfiles
-	ln -s ~/.config/nvim/backups ~/.vim/backups
-	ln -s ~/.config/nvim/colors ~/.vim/colors
-else 
+else
 	echo "need an option";
 fi

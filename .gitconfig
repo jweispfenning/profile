@@ -1,6 +1,6 @@
 [user]
 	name = John Weispfenning
-	email = 
+	email = ''
 [color]
 	ui = auto
 [push]
@@ -16,7 +16,6 @@
 	editor = nvim
 	excludesfile = ~/.gitignore
 	ignorecase = false
-	pager = vimpager
 [diff]
 	tool = vimdiff
 [difftool]
