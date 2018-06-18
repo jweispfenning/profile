@@ -28,6 +28,8 @@
 	c = checkout
 	cb = checkout -b
 	d = difftool
+	fp = fetch -p
+	graph = log --pretty=oneline --graph
 	s = status
 [merge]
 	tool = vimdiff

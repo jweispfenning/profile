@@ -1,5 +1,4 @@
 #!/bin/bash -x
-
 case "$-" in
 *i*) interactive=1 ;;
 *)   interactive=0 ;;
@@ -44,16 +43,25 @@ alias reload='source ~/.bashrc'
 alias rmr='rm -r'
 alias scut='cut -c1-250'
 alias docker_clear='function _a_func {
-	echo "container prune";
-	yes | docker container prune;
 	echo "removing dangling images";
 	docker rmi -f $(docker images -f "dangling=true" -q);
+	echo "container prune";
+	yes | docker container prune;
 }; _a_func'
 
 #git alias
 alias git_replace='function _a_func {
 	git branch -D $1;
 	git checkout -b $1 && git branch -u origin/$1;
+}; _a_func'
+
+alias c='function _a_func {
+	if [ -d $1 ] || [ -z $1 ]; then
+		cd $1
+		ls -l;
+	else
+		nvim $1;
+	fi
 }; _a_func'
 
 #leaving this so I don't forget the insane java main signature.
