@@ -3,7 +3,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'davidhalter/jedi-vim'
 Plug 'junegunn/fzf.vim'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 "Plug 'tmhedberg/SimpylFold'
 Plug 'tpope/vim-fugitive'
@@ -12,6 +12,11 @@ Plug 'saltstack/salt-vim'
 call plug#end()
 
 so ~/.vimrc
+
+
+"" ctrlp stuff... erick told me to
+let g:ctrlp_user_command='rg %s --files --color=never --glob ""'
+let g:ctrlp_use_caching=0
 
 "" set back file location
 set backupdir=~/.config/nvim/backups
@@ -37,7 +42,11 @@ let g:python3_host_prog = '/Users/jweispfenning/miniconda3/bin/python'
 nnoremap <C-f> :TagbarToggle<CR>
 
 "" jedi
-let g:jedi#auto_completion=1
+let g:jedi#auto_completion = 1
+set completeopt-=preview
+inoremap <expr> <C-j> ((pumvisible())?("\<C-n>"):("\<C-j>"))
+inoremap <expr> <C-k> ((pumvisible())?("\<C-p>"):("\<C-k>"))
+inoremap <expr> <CR>  ((pumvisible())?("\<C-y>"):("\<CR>"))
 
 "" autucomplete menu colors
 hi Pmenu ctermbg=black ctermfg=white
