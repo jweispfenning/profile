@@ -1,6 +1,9 @@
 "".vimrc
 set nocompatible
 
+"" sigh, let your mouse wheel work
+set mouse=a
+
 ""sets linefeed
 set fileformat=unix
 
@@ -44,9 +47,6 @@ set linebreak
 nnoremap j gj
 nnoremap k gk
 
-""use this to convert spaces to tabs on selected area
-vnoremap ; <S-<>gv<S->>
-
 ""set newline after selected line
 nmap <CR> o<Esc>
 
@@ -70,6 +70,9 @@ command WW wa!
 
 ""pesky problem with not opening a file with sudo and cant write
 cnoremap w!! w !sudo tee > /dev/null %
+
+""sort stuff on the same line
+:vnoremap <C-S> d:execute 'normal i' . join(sort(split(getreg('"'))), ' ')<CR>
 
 ""split a list
 command SPLIT s/,/,/g
@@ -98,6 +101,11 @@ command RE Re
 nmap <C-L> :Le<CR>
 ""autocmd VimEnter * :Le<CR>
 
+""start from previous location
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
 ""Loads highlighting rules
 "command APPLYCUSTOM execute printf("set syntax=%s.custom", &syntax)
 "autocmd VimEnter * APPLYCUSTOM
@@ -111,12 +119,12 @@ call matchadd('Violations', ' \+\t\+', -1)
 call matchadd('Violations', '\t\+ \+', -1)
 ""trailing whitespace
 call matchadd('Violations', '\s\+$', -1)
-""lines longer than 120 characters
-call matchadd('Violations', '\%>120v.\+$', -1)
+""lines longer than 150 characters
+call matchadd('Violations', '\%>150v.\+$', -1)
 command NOV highlight clear Violations
 
 "" TESTCASES
-"This is a really long line and it is used to make sure that it will always always always highlight how I want and think it will
+"This is a really long line and it is used to make sure that it will always always always highlight how I want and think it will because if it isn't this is just awkward
 "
 "space then tab: 	:
 "space then 2 tabs: 		:

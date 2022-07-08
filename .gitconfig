@@ -1,13 +1,17 @@
 [user]
-	name = John Weispfenning
 	email = ''
+	name = John Weispfenning
+[commit]
+	gpgsign = true
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg
 [color]
 	ui = auto
 [push]
 	defualt = tracking
 [rerere]
-	enabled = true
 	autoupdate = true
+	enabled = true
 [rebase]
 	stat = true
 [branch]
@@ -20,6 +24,8 @@
 	tool = vimdiff
 [difftool]
 	prompt = false
+[url "git@github.com:"]
+	insteadOf = https://github.com
 [alias]
 	b = branch -vv
 	bd = branch -D
@@ -30,6 +36,9 @@
 	d = difftool
 	fp = fetch -p
 	graph = log --pretty=oneline --graph
+	mom = merge origin/master
+	pp = pull -p
+	pu = push -u
 	s = status
 [merge]
 	tool = vimdiff
