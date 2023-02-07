@@ -1,14 +1,11 @@
 [user]
 	email = ''
 	name = John Weispfenning
-[commit]
-	gpgsign = true
-[gpg]
-	program = /usr/local/MacGPG2/bin/gpg
 [color]
 	ui = auto
 [push]
 	defualt = tracking
+	autoSetupRemote = true
 [rerere]
 	autoupdate = true
 	enabled = true
@@ -20,6 +17,7 @@
 	editor = nvim
 	excludesfile = ~/.gitignore
 	ignorecase = false
+	pager = less -FX
 [diff]
 	tool = vimdiff
 [difftool]

@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git kubectl terraform)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,8 +105,8 @@ source $ZSH/oh-my-zsh.sh
 ########################
 # SHELL SETUP
 ########################
-export HISTSIZE=100000
-export SAVEHIST=$HISTSIZE
+export HISTSIZE=10000000
+export SAVEHIST=10000000
 setopt EXTENDED_HISTORY
 
 # set vi mode
@@ -131,15 +131,9 @@ function consolidate_path {
   export PATH=$NEW_PATH;
 }
 
-export PAGER=vimpager
-export GOPRIVATE="github.com/moovfinancial"
-export GOPATH=$HOME/go
-export GOBIN=$GOPATH/bin
-export PATH="$PATH:$GOPATH:$GOBIN:/Users/jweispfenning/local-stuff/bin"
+export PATH="/Users/jweispfenning/.local/bin:$PATH"
 consolidate_path;
 export PATH="/usr/local/bin:$PATH"
-
-export CLOUDSDK_PYTHON_SITEPACKAGES=1
 
 # # Load Git completion
 # zstyle ':completion:*:*:git:*' script ~/.zsh/git-completion.bash
@@ -249,8 +243,6 @@ alias tunnel='function _a_func {
 alias repo='function _a_func {
   repos=(
     ~/repositories/
-    ~/repositories/moovfinancial
-    ~/repositories/moov-io
   )
 
   for thing in $repos; do
@@ -262,9 +254,6 @@ alias repo='function _a_func {
   done
 }; _a_func'
 
-########################
-# SENSITIVE
-########################
 alias login_mysql='function _a_func_ {
   script=$1
   debug=$2
@@ -294,6 +283,8 @@ alias login_mysql='function _a_func_ {
   fi
 }; _a_func_'
 
+
+# zsh prompt
 autoload -U vcs_info colors && colors
 zstyle ':vcs_info:git*' enable git
 zstyle ':vcs_info:git*' formats "%B%F{blue}%s:[%f%F{red}%b%f%F{blue}]%f"
@@ -324,3 +315,7 @@ precmd_functions+=(vcs_info git_prompt)
 
 # uniq path
 # echo $PATH | sed 's/:/\n/g' | sort | uniq -du
+
+# enable reverse search
+bindkey -v
+bindkey '^R' history-incremental-search-backward

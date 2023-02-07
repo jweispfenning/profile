@@ -40,7 +40,7 @@ highlight Structure      ctermfg=DarkGreen
 highlight String         ctermfg=DarkCyan
 
 " Diff Colors
-highlight DiffText       ctermbg=96  ctermfg=0
-highlight DiffChange     ctermbg=155 ctermfg=0
-highlight DiffDelete     ctermbg=7 ctermfg=0
-highlight DiffAdd        ctermbg=21 ctermfg=White
+highlight DiffAdd        ctermbg=DarkBlue ctermfg=White
+highlight DiffChange     ctermbg=Yellow   ctermfg=Black
+highlight DiffDelete     ctermbg=Gray     ctermfg=Black
+highlight DiffText       ctermbg=Red      ctermfg=Black

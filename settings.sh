@@ -14,7 +14,6 @@ done
 
 # if [ ! -z $EXPORT ]; then
 	# cp .zshrc ~/.zshrc;
-	# cp .bash_profile ~/.bash_profile;
 	# cp .vimrc ~/.vimrc
 	# cp -r .config/ ~/;
 	# cp .gitconfig ~/.gitconfig;
