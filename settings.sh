@@ -17,15 +17,15 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ ! -z $EXPORT ]; then
-	cp .bashrc ~/.bashrc;
-	cp .bash_profile ~/.bash_profile;
-	cp .vimrc ~/.vimrc
-	cp -r .config/ ~/;
-	cp .gitconfig ~/.gitconfig;
-	mkdir ~/.vim
-	ln -s ~/.config/nvim/swapfiles ~/.vim/swapfiles
-	ln -s ~/.config/nvim/backups ~/.vim/backups
-	ln -s ~/.config/nvim/colors ~/.vim/colors
+	# cp .zshrc ~/.zshrc;
+	# cp .bash_profile ~/.bash_profile;
+	# cp .vimrc ~/.vimrc
+	# cp -r .config/ ~/;
+	# cp .gitconfig ~/.gitconfig;
+	# mkdir ~/.vim
+	# ln -s ~/.config/nvim/swapfiles ~/.vim/swapfiles
+	# ln -s ~/.config/nvim/backups ~/.vim/backups
+	# ln -s ~/.config/nvim/colors ~/.vim/colors
 elif [ ! -z $IMPORT ]; then
 	cp ~/.zshrc .zshrc
 	cp ~/.vimrc .vimrc
