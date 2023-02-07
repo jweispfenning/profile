@@ -1,12 +1,8 @@
-#!/bin/bash
+#!/bin/zsh
 
 while [[ $# -gt 0 ]]; do
 	case "$1" in
-		-e|--export)
-			EXPORT=true
-			shift
-			;;
-		-i|--import)
+		-g|--get)
 			IMPORT=true
 			shift
 			;;
@@ -16,7 +12,7 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-if [ ! -z $EXPORT ]; then
+# if [ ! -z $EXPORT ]; then
 	# cp .zshrc ~/.zshrc;
 	# cp .bash_profile ~/.bash_profile;
 	# cp .vimrc ~/.vimrc
@@ -26,7 +22,7 @@ if [ ! -z $EXPORT ]; then
 	# ln -s ~/.config/nvim/swapfiles ~/.vim/swapfiles
 	# ln -s ~/.config/nvim/backups ~/.vim/backups
 	# ln -s ~/.config/nvim/colors ~/.vim/colors
-elif [ ! -z $IMPORT ]; then
+if [ ! -z $IMPORT ]; then
 	cp ~/.zshrc .zshrc
 	cp ~/.vimrc .vimrc
 	cp ~/.config/nvim/init.vim .config/nvim/init.vim;
