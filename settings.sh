@@ -22,11 +22,11 @@ done
 	# ln -s ~/.config/nvim/backups ~/.vim/backups
 	# ln -s ~/.config/nvim/colors ~/.vim/colors
 if [ ! -z $IMPORT ]; then
-	cp ~/.zshrc .zshrc
+	cp -r ~/.config/nvim/* .config/nvim/
+	cp ~/.gitconfig .gitconfig
 	cp ~/.vimrc .vimrc
-	cp ~/.config/nvim/init.vim .config/nvim/init.vim;
-	cp ~/.config/nvim/after/syntax/* .config/nvim/after/syntax;
-	cp ~/.gitconfig .gitconfig;
+	cp ~/.zshrc .zshrc
+	cp ~/Library/Saved\ Application\ State/com.googlecode.iterm2.savedState/windows.plist windows.plist
 else
 	echo "need an option";
 fi
