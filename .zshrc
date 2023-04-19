@@ -72,6 +72,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
+# export REPO_LOCATIONS=()
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -167,14 +168,6 @@ alias git_replace='function _a_func {
   git branch -D $1;
   git checkout -b $1 && git branch -u origin/$1;
 }; _a_func'
-alias c='function _a_func {
-  if [ -d $1 ] || [ -z $1 ]; then
-    cd $1
-    ls -l;
-  else
-    nvim $1;
-  fi
-}; _a_func'
 alias rtop='function _a_func {
   curr_dir=${PWD}
   while [[ ! -d .git && ${PWD} != "/" ]]; do
@@ -184,6 +177,24 @@ alias rtop='function _a_func {
   cd - > /dev/null
 }; _a_func'
 
+function c {
+  if [ -d $1 ] || [ -z $1 ]; then
+    cd $1
+    ls -l;
+  else
+    nvim $1;
+  fi
+}
+
+function repo() {
+  for r in $REPO_LOCATIONS; do
+    cd $r;
+    if [ -d $1 ]; then
+      cd $1;
+      return;
+    fi
+  done
+}
 
 ########################
 # DOCUMENTATION
@@ -240,20 +251,6 @@ alias tunnel='function _a_func {
   gcloud compute ssh dev-bastion --tunnel-through-iap -- -v -N -L $_host_info[$project]
 }; _a_func'
 
-alias repo='function _a_func {
-  repos=(
-    ~/repositories/
-  )
-
-  for thing in $repos; do
-    cd $thing;
-    if [ -d $1 ]; then
-      cd $1;
-      return;
-    fi
-  done
-}; _a_func'
-
 alias login_mysql='function _a_func_ {
   script=$1
   debug=$2
@@ -282,6 +279,8 @@ alias login_mysql='function _a_func_ {
     mysql -u${mysql_username} -h127.0.0.1 -P9988 -p${mysql_password}
   fi
 }; _a_func_'
+
+
 
 
 # zsh prompt
