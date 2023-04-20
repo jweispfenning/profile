@@ -1,0 +1,37 @@
+#compdef book
+
+_book() {
+  local state
+
+  _arguments \
+    '1: :->book' \
+    '-n[novel name]:novels:->novel'
+
+
+  case $state in
+    (book)
+        _arguments '1:availabile_ops:($(_get_operations))'
+        ;;
+    (novel)
+        # _values takes an array. but special magic happens at assignment to
+        # make sure entries are properly encapsulate. Basically you can't capture
+        # output of echo and expect it to work. -s is also how the OUTPUT value works
+        OLDIFS=$IFS
+        IFS=","
+        local NOVELS=($(book --novels))
+        IFS=$OLDIFS
+        _values "novels" ${NOVELS[@]}
+        ;;
+  esac
+}
+
+
+function _get_operations {
+  local OPERATIONS=(
+    'get'
+    'read'
+    'stats'
+  )
+  echo $OPERATIONS
+}
+_book "$@"
