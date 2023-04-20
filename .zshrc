@@ -1,6 +1,12 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/jweispfenning/.oh-my-zsh"
 
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+export ZSH_THEME="robbyrussell"
+
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
@@ -8,8 +14,9 @@ export ZSH="/Users/jweispfenning/.oh-my-zsh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
+
 ########################
-# CUSTOM FUNCTIONS
+# FUNCTIONS
 ########################
 function c {
   if [ -d $1 ] || [ -z $1 ]; then
@@ -163,8 +170,11 @@ precmd_functions+=(vcs_info git_prompt)
 # uniq path
 #   echo $PATH | sed 's/:/\n/g' | sort | uniq -du
 #
-# Associative arrays
-#   alias tunnel='function _a_func {
+# gcloud
+#   gcloud secrets versions access latest --secret=terraform__auth0_staging__client_secret
+#
+# Associative Arrays
+#   function _a_func {
 #     project=$1
 #     env=$2
 #     service=$3
@@ -207,33 +217,12 @@ precmd_functions+=(vcs_info git_prompt)
 #
 #     # ssh -v $project-$env-bastion -L $_host_info[$project]
 #     gcloud compute ssh dev-bastion --tunnel-through-iap -- -v -N -L $_host_info[$project]
-#   }; _a_func'
+#   }
 #
-#   alias login_mysql='function _a_func_ {
-#     script=$1
-#     debug=$2
-#
-#     echo "Authing to vault..."
+# jq
+#   function _a_func_ {
 #     login_res=$(vault login -address=http://127.0.0.1:9989 -method=github token=$(gh_token))
-#
-#     echo "Generating mysql creds..."
 #     creds=$(vault read -address=http://127.0.0.1:9989 apps-database/creds/full -format=json)
-#
-#     if [ ! -z ${debug} ]; then
-#       echo "\n========== DEBUG OUTPUT =========="
-#       echo "  LOGIN RESULT:\n${login_res}"
-#       echo "--------------------"
-#       echo "  APP-DATABASE READ OPERATION:\n${creds}"
-#       echo "========== END ==========\n"
-#     fi
-#
 #     mysql_username=$(echo $creds | jq -r ".data.username")
 #     mysql_password=$(echo $creds | jq -r ".data.password")
-#
-#     echo "Connecting to mysql..."
-#     if [ ! -z $script ]; then
-#       mysql -u${mysql_username} -h127.0.0.1 -P9988 -p${mysql_password} < $script
-#     else
-#       mysql -u${mysql_username} -h127.0.0.1 -P9988 -p${mysql_password}
-#     fi
-#   }; _a_func_'
+#   }
