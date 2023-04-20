@@ -21,6 +21,8 @@ done
 	# ln -s ~/.config/nvim/swapfiles ~/.vim/swapfiles
 	# ln -s ~/.config/nvim/backups ~/.vim/backups
 	# ln -s ~/.config/nvim/colors ~/.vim/colors
+	# mkdir -p ~/.oh-my-zsh/completions
+	# cp -r completions/* ~/.oh-my-zsh/completions/
 if [ ! -z $IMPORT ]; then
 	cp -r ~/.config/nvim/* .config/nvim/
 	cp ~/.gitconfig .gitconfig
