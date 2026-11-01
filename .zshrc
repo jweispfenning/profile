@@ -1,19 +1,12 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/jweispfenning/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-export ZSH_THEME="robbyrussell"
-
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
-
 
 ########################
 # FUNCTIONS
@@ -40,17 +33,39 @@ function repo {
 function book {
   local orig_location=${PWD}
   repo scrapper;
+  v_activate;
   ./run $@;
+  deactivate;
   cd $orig_location;
+}
+
+function reset_dns {
+  networksetup -setdnsservers Wi-Fi 192.168.50.1 192.168.50.100
+  sudo dscacheutil -flushcache
+  sudo killall -HUP mDNSResponder
+}
+
+function v_activate {
+  local orig_location=${PWD}
+
+  [ ! -n ${VIRTUAL_ENV} ] && deactivate
+  [ ! -z "$1" ] && repo $1
+
+  source .venv/bin/activate
+  cd $orig_location
 }
 
 
 ########################
 # LOAD ZSH STUFF
 ########################
-# export REPO_LOCATIONS=()
+export REPO_LOCATIONS=(
+  ~/Documents
+)
 source $ZSH/oh-my-zsh.sh
 
+compdef _repo repo v_activate
+compdef _book book
 
 ########################
 # SHELL SETUP
@@ -68,17 +83,9 @@ export LSCOLORS=gxfxcxdxbxegedabagacad
 
 # misc
 function consolidate_path {
-  echo $PATH | sed "s/:/\n/g" | sort -u > __out.txt;
-  NEW_PATH="";
-  for i in $(cat __out.txt); do
-    if [ -z $NEW_PATH ]; then
-      NEW_PATH="$i";
-    else
-      NEW_PATH="$NEW_PATH:$i";
-    fi
-  done
-  rm __out.txt;
-  export PATH=$NEW_PATH;
+  typeset -U path_array  # -U ensures unique elements
+  path_array=(${(s/:/)PATH})
+  export PATH="${(j/:/)path_array}"
 }
 
 export PATH="/Users/jweispfenning/.local/bin:$PATH"
@@ -94,7 +101,7 @@ bindkey '^R' history-incremental-search-backward
 
 
 ########################
-# ALIASES
+# ALIASES & FUNCTIONS
 ########################
 # clears alias namespace
 unalias -a
@@ -104,125 +111,70 @@ alias vim='nvim'
 
 # generic ones
 alias deject='diskutil eject'
+alias dns_server='ssh jweispfenning@192.168.50.100'
 alias env='env | sort'
 alias grep='grep -I'
 alias itsfine='xattr -d com.apple.quarantine'
-alias ls='ls -G'
 alias ll='ls -lA'
+alias ls='ls -G'
 alias newa='vim ~/.zshrc'
 alias newg='vim ~/.gitconfig'
 alias newv='vim ~/.vimrc'
 alias reload='source ~/.zshrc'
-alias scut='cut -c1-250'
-alias git_super_pull='git stash; git pp; git stash pop'
-alias git_replace='function _a_func {
-  git branch -D $1;
-  git checkout -b $1 && git branch -u origin/$1;
-}; _a_func'
 alias rtop='function _a_func {
-  curr_dir=${PWD}
-  while [[ ! -d .git && ${PWD} != "/" ]]; do
-    cd ..
-  done
-  cd $curr_dir > /dev/null
-  cd - > /dev/null
+  cd "$(git rev-parse --show-toplevel 2>/dev/null)";
 }; _a_func'
+alias scut='cut -c1-250'
 
 
 ########################
-# GIT PROMPT
+# PROMPT
 ########################
 autoload -U vcs_info colors && colors
 zstyle ':vcs_info:git*' enable git
 zstyle ':vcs_info:git*' formats "%B%F{blue}%s:[%f%F{red}%b%f%F{blue}]%f"
 setopt prompt_subst
 
+
 function git_prompt {
-  a=(${(s[/])${PWD}})
-  reverse=()
-  for i in $a; do
-    reverse=("$i" "${reverse[@]}")
-  done
-  npath=${PWD}
-  repo_path=""
+  local prefix="%F{cyan}➜%f  "
+  local suffix="%B\$%b "
+  local path_part="%F{green}${PWD/#$HOME/~}%f "
+  local git_part=""
+  local python_part=""
 
-  for i in $reverse; do
-    repo_path="$i/$repo_path"
+  # get python info
+  if [[ -n $VIRTUAL_ENV ]]; then
+    local active_python=$(which python)
+    python_part=${${active_python%%/.venv/*}:t}
+  else # its the root
+    python_part="root"
+  fi
+  python_part="(%F{yellow}$python_part%f) "
 
-    if [ -d $npath/.git ]; then
-      PROMPT="%F{cyan}➜%f  %F{green}${repo_path}%f ${vcs_info_msg_0_} %B\$%b "
-      return
+  # get git info
+  if [[ -n ${vcs_info_msg_0_} ]]; then
+    local repo_path=$(git rev-parse --show-toplevel)
+    local prompt_path=${repo_path:t}/${PWD#$repo_path/}
+    if [[ ${repo_path} == ${PWD} ]]; then
+      prompt_path=${repo_path:t}
     fi
-    npath="$npath/.."
-  done
-  PROMPT="%F{cyan}➜%f  %F{green}%~%f %B\$%b "
+
+    # we are in a git repo so override path
+    path_part="%F{green}${prompt_path}%f "
+    git_part="%B${vcs_info_msg_0_}%b "
+  fi
+
+  PROMPT="${prefix}${path_part}${git_part}${python_part}${suffix}"
 }
 
-precmd_functions+=(vcs_info git_prompt)
 
+# Add vcs_info only if not already in precmd_functions
+if [[ -z "${precmd_functions[(r)vcs_info]}" ]]; then
+  precmd_functions+=(vcs_info)
+fi
 
-########################
-# DOCUMENTATION
-########################
-# find
-#   find . -name "invalid" -exec cat {} \;
-#
-# uniq path
-#   echo $PATH | sed 's/:/\n/g' | sort | uniq -du
-#
-# gcloud
-#   gcloud secrets versions access latest --secret=terraform__auth0_staging__client_secret
-#
-# Associative Arrays
-#   function _a_func {
-#     project=$1
-#     env=$2
-#     service=$3
-#
-#     # services
-#     declare -A _platform_staging=(
-#       [mysql]="9988:10.104.150.8:3306"
-#       [vault]="9989:10.2.0.128:8200"
-#     )
-#     declare -A _platform_prod=(
-#       [mysql]="9988:10.104.150.5:3306"
-#       [vault]="9989:10.2.0.53:8200"
-#       [vault_sql]="9990:10.104.150.2:3306"
-#     )
-#     declare -A _pci_staging=(
-#       [mysql]="9988:10.25.0.5:3306"
-#       [vault]="9989:10.2.0.100:8200"
-#     )
-#     declare -A _pci_prod=(
-#       [mysql]="9988:10.236.0.5:3306"
-#       [vault]="9989:10.2.0.27:8200"
-#       [vault_sql]="9990:10.236.0.2:3306"
-#     )
-#
-#     # envs
-#     declare -A _platform=(
-#       [staging]=$_platform_staging[$service]
-#       [prod]=$_platform_prod[$service]
-#     )
-#     declare -A _pci=(
-#       [staging]=$_pci_staging[$service]
-#       [prod]=$_pci_prod[$service]
-#     )
-#
-#     # projects
-#     declare -A _host_info=(
-#       [pci]=$_pci[$env]
-#       [platform]=$_platform[$env]
-#     )
-#
-#     # ssh -v $project-$env-bastion -L $_host_info[$project]
-#     gcloud compute ssh dev-bastion --tunnel-through-iap -- -v -N -L $_host_info[$project]
-#   }
-#
-# jq
-#   function _a_func_ {
-#     login_res=$(vault login -address=http://127.0.0.1:9989 -method=github token=$(gh_token))
-#     creds=$(vault read -address=http://127.0.0.1:9989 apps-database/creds/full -format=json)
-#     mysql_username=$(echo $creds | jq -r ".data.username")
-#     mysql_password=$(echo $creds | jq -r ".data.password")
-#   }
+if [[ -z "${precmd_functions[(r)git_prompt_old]}" ]]; then
+  precmd_functions+=(git_prompt)
+fi
+
